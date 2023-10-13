@@ -27,21 +27,22 @@ function makeMap(earthquakeData)
           .addTo(myMap);
     }
     let legend = L.control({position: 'bottomright'});
-    legend.onAdd = function (myMap) {
+    legend.onAdd = function (myMap) 
+    {
 
-    let div = L.DomUtil.create('div', 'legend');
-    labels = [],
-    ranges = ['-10-10','10-30','30-50','50-70','70-90', '90+'];
-    colors = ["#98EE00", "#D4EE00", "#EECC00", "#EE9C00", "#EA822C", "#EA2C2C"]
-    for (let j = 0; j < ranges.length; j++) {
+      let div = L.DomUtil.create('div', 'legend');
+      let labels = [];
+      let ranges = ['-10-10','10-30','30-50','50-70','70-90', '90+'];
+      let colors = ["#98EE00", "#D4EE00", "#EECC00", "#EE9C00", "#EA822C", "#EA2C2C"]
+      for (let j = 0; j < ranges.length; j++) 
+      {
+        div.innerHTML += labels.push('<i style="background:' + colors[j] + '"></i> ' + (ranges[j] ? ranges[j] : '+'));
 
-            div.innerHTML += labels.push('<i class="circle" style="background:' + colors[j] + '"></i> ' + (ranges[j] ? ranges[j] : '+'));
-
-        }
-        div.innerHTML = labels.join('<br>');
-    return div;
+      }
+      div.innerHTML = labels.join('<br>');
+      return div;
     };
-    legend.addTo(map);
+    legend.addTo(myMap);
 }
 
 function setColor(depth)
