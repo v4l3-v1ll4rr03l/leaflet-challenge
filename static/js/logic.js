@@ -36,7 +36,7 @@ function makeMap(earthquakeData)
       let colors = ["#98EE00", "#D4EE00", "#EECC00", "#EE9C00", "#EA822C", "#EA2C2C"]
       for (let j = 0; j < ranges.length; j++) 
       {
-        div.innerHTML += labels.push('<i style="background:' + colors[j] + '"></i> ' + (ranges[j] ? ranges[j] : '+'));
+        div.innerHTML += labels.push('<i style="background:' + colors[j] + '">&nbsp&nbsp&nbsp&nbsp</i> ' + (ranges[j] ? ranges[j] : '+'));
 
       }
       div.innerHTML = labels.join('<br>');
