@@ -13,52 +13,52 @@ function makeMap(earthquakeData)
         zoom: 4.5,
     });
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(myMap);
-    let earthquakes = L.markerClusterGroup();
     for (let i = 0; i < earthquakeData.length; i++) 
     {
         let earthquake = earthquakeData[i];
-        earthquakes.addLayer(L.circle([earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0]], 
+        L.circle([earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0]], 
             {
-                radius: earthquake.properties.mag * 11000
+                color: 'black',
+                weight: 0.25,
+                fillColor: setColor(earthquake.geometry.coordinates[2]),
+                radius: earthquake.properties.mag * 12000
             })
-          .bindPopup(`<h3>${earthquake.properties.place}</h3><hr><p>Magnitude: ${earthquake.properties.mag}<br>Depth: ${earthquake.geometry.coordinates[2]}</p>`));
-    }  
-    console.log(earthquakes);
-    myMap.addLayer(earthquakes);
+          .bindPopup(`<h3>${earthquake.properties.place}</h3><hr><p>Magnitude: ${earthquake.properties.mag}<br>Depth: ${earthquake.geometry.coordinates[2]}</p>`)
+          .addTo(myMap);
+    }
+    let legend = L.control({position: 'bottomright'});
+    legend.onAdd = function (myMap) {
+
+    let div = L.DomUtil.create('div', 'legend');
+    labels = [],
+    ranges = ['-10-10','10-30','30-50','50-70','70-90', '90+'];
+    colors = ["#98EE00", "#D4EE00", "#EECC00", "#EE9C00", "#EA822C", "#EA2C2C"]
+    for (let j = 0; j < ranges.length; j++) {
+
+            div.innerHTML += labels.push('<i class="circle" style="background:' + colors[j] + '"></i> ' + (ranges[j] ? ranges[j] : '+'));
+
+        }
+        div.innerHTML = labels.join('<br>');
+    return div;
+    };
+    legend.addTo(map);
 }
 
-
-// let queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
-
-// d3.json(queryUrl).then(function (data) 
-// {
-//     makeMap(data.features);
-// });
-
-// function makeMap(earthquakeData)
-// {
-//     let myMap = L.map("map", 
-//     {
-//         center: [39.8283, -98.5795],
-//         zoom: 4.5,
-//     });
-//     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(myMap);
-//     for (let i = 0; i < earthquakeData.length; i++) 
-//     {
-//         let earthquake = earthquakeData[i];
-//         L.circle([earthquake.geometry.coordinates[1], earthquake.geometry.coordinates[0]], 
-//             {
-//                 color: 0,
-//                 fillColor: setColor(earthquake.geometry.coordinates[2]),
-//                 radius: earthquake.properties.mag * 11000
-//             })
-//           .bindPopup(`<h3>${earthquake.properties.place}</h3><hr><p>Magnitude: ${earthquake.properties.mag}<br>Depth: ${earthquake.geometry.coordinates[2]}</p>`)
-//           .addTo(myMap);
-//     }  
-// }
-
-// function setColor(magnitude)
-// {
-    
-// }
+function setColor(depth)
+{
+    switch (true) {
+        case depth > 90:
+          return "#EA2C2C";
+        case depth > 70:
+          return "#EA822C";
+        case depth > 50:
+          return "#EE9C00";
+        case depth > 30:
+          return "#EECC00";
+        case depth > 10:
+          return "#D4EE00";
+        default:
+          return "#98EE00";
+      }
+}
   
