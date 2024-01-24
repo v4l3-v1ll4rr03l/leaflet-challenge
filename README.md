@@ -1,6 +1,6 @@
 To view map in browser:
 
-1. Click the green button labeled <Code>
+1. Click the green button labeled '<Code>'
 2. From the choices opened, click the last option 'Download ZIP'
 3. Close your browser
 4. Open the application you use to store and organize files in your computer (Finder on Mac or File Explorer on Windows)
